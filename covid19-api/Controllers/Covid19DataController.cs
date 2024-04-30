@@ -19,21 +19,22 @@ namespace covid19_api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<CountryData>>>> Get()
-
         {
-            var response = await this._covid19DataService.GetAllCaseData();
-            return response;
+            var response = await this._covid19DataService.GetAllCaseDataTest();
+            return Ok(response);
         }
 
 
-        [HttpGet("{country}")]
-        public async Task<ActionResult<ServiceResponse<CountryData>>> GetCaseByCountry(string country)
+        [HttpGet("country")]
+        public async Task<ActionResult<ServiceResponse<CountryData>>> GetCaseByCountry()
         {
-            var serviceResponse = await this._covid19DataService.GetCaseDataByCountry(country);
-            return serviceResponse;
+            string countryParam = "default";
+            countryParam = HttpContext.Request.Query["country"];
+            var serviceResponse = await this._covid19DataService.GetCaseDataByCountry(countryParam);
+            return Ok(serviceResponse);
         }
     }
 
 
-    
+
 }
