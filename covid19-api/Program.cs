@@ -1,5 +1,8 @@
 global using Newtonsoft.Json;
 global using covid19_api.Services;
+global using covid19_api.Data;
+global using covid19_api.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddDbContext<DataContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICovid19DataService, Covid19DataService>();

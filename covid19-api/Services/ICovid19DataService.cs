@@ -9,5 +9,7 @@ namespace covid19_api.Services
         Task<ServiceResponse<List<GetCountryDataDto>>> GetAllCaseDataTest();
         Task<ServiceResponse<List<GetCountryDataDto>>> GetCaseDataByCountry(string countryName);
 
+        Task<ServiceResponse<CountryData>> SaveDataToDb(string countryName);
+
     }
 }

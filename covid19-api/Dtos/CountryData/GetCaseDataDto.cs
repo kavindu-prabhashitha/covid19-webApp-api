@@ -1,12 +1,11 @@
-﻿
-namespace covid19_api.Models
+﻿namespace covid19_api.Dtos.CountryData
 {
-    public class CaseData
+    public class GetCaseDataDto
     {
         [JsonProperty("total")]
         public int Total { get; set; }
 
         [JsonProperty("new")]
-        public int New {  get; set; }
+        public int New { get; set; }
     }
 }

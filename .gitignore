@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+covid19-webUI/node_modules
+covid19-webUI/.angular

@@ -1,6 +1,7 @@
-﻿using covid19_api.Dtos.CountryData;
+﻿using AutoMapper;
+using covid19_api.Dtos.CountryData;
 using covid19_api.Models;
-using System.Diagnostics.Metrics;
+
 
 
 namespace covid19_api.Services
@@ -10,11 +11,14 @@ namespace covid19_api.Services
         private readonly string apiEndpoint= "https://api.api-ninjas.com/v1/covid19";
         private readonly string apiKey = "z7ypjrRoVu3bWygaDQaC2g==9zF0jFvHx1lKIBvF";
         private HttpClient _httpClient;
+        private readonly IMapper _mapper;
 
-        public Covid19DataService()
+        public Covid19DataService(IMapper mapper)
         {
             this._httpClient = new HttpClient();
             this._httpClient.DefaultRequestHeaders.Add("X-Api-Key", this.apiKey);
+
+            _mapper = mapper;
         }
 
 
@@ -70,5 +74,30 @@ namespace covid19_api.Services
             
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<CountryData>> SaveDataToDb(string countryName)
+        {
+            var serviceResponse = new ServiceResponse<CountryData>();
+            List<GetCountryDataDto> countryDataList = new List<GetCountryDataDto>();
+            CountryData countryData;
+            try
+            {
+                var response = await this._httpClient.GetAsync(this.apiEndpoint + "?country=" + countryName);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                countryDataList = JsonConvert.DeserializeObject<List<GetCountryDataDto>>(apiResponse);
+                countryData = _mapper.Map<CountryData>(countryDataList);
+
+               serviceResponse.Data = countryData;
+               serviceResponse.Message = apiResponse;
+            }
+            catch(System.Exception ex) {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            
+            return serviceResponse;
+
+        }
+       
     }
 }
