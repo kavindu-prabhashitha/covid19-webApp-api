@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using covid19_api.Dtos.Case;
 using covid19_api.Dtos.CountryData;
 
 namespace covid19_api
@@ -16,7 +17,7 @@ namespace covid19_api
                     {
                         Total = kvp.Value.Total,
                         New = kvp.Value.New,
-                        Date = new DateTime()
+                        Date = kvp.Key.Date,
                     });
                 }
 
@@ -24,6 +25,8 @@ namespace covid19_api
             });
 
             CreateMap<GetCountryDataDto, CountryData>();
+            CreateMap<AddCountryDataDto, CountryData>();
+            CreateMap<AddCaseDataDto, Case>();
         }
 
     }
