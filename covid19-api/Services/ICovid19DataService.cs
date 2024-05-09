@@ -20,5 +20,7 @@ namespace covid19_api.Services
 
         Task<ServiceResponse<CountryData>> UpdateCountryCase(UpdateCountryDataDto updateCountryData);
 
+        Task<ServiceResponse<List<CountryData>>> getDBCountryList();
+
     }
 }

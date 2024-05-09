@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using covid19_api.Dtos.CountryData;
 using covid19_api.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -195,5 +196,28 @@ namespace covid19_api.Services
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<List<CountryData>>> getDBCountryList()
+        {
+            var serviceResponse = new ServiceResponse<List<CountryData>>();
+            try
+            {
+                var countryList = await _context.CountryDatas.ToListAsync();
+                serviceResponse.Data = countryList;
+                serviceResponse.Success = true;
+                serviceResponse.Message = "All Country Data List";
+            }
+            catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+
+            }
+            
+
+        return serviceResponse;
+        }
     }
+
+ 
 }

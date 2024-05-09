@@ -76,6 +76,13 @@ namespace covid19_api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("get-all-country-names")]
+        public async Task<ActionResult<ServiceResponse<List<CountryData>>>> GetAllCountryNames()
+        {
+            var serviceResponse = await this._covid19DataService.getDBCountryList();
+            return Ok(serviceResponse);
+        }
+
 
     }
 }

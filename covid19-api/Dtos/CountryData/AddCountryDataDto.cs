@@ -8,6 +8,6 @@ namespace covid19_api.Dtos.CountryData
 
         public string Region { get; set; }
 
-        public AddCaseDataDto Case { get; set; }
+        public List<AddCaseDataDto> Cases { get; set; }
     }
 }
