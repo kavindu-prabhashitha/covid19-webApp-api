@@ -11,6 +11,6 @@ namespace covid19_api.Dtos.CountryData
         public string Region { get; set; }
 
         [JsonProperty("cases")]
-        public Dictionary<DateTime, CaseData> Cases { get; set; }
+        public Dictionary<DateTime, GetCaseDataDto> Cases { get; set; }
     }
 }
