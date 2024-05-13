@@ -12,8 +12,8 @@ using covid19_api.Data;
 namespace covid19_api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240502212551_initialMigration")]
-    partial class initialMigration
+    [Migration("20240510030233_initailMigration")]
+    partial class initailMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,13 +36,13 @@ namespace covid19_api.Migrations
                     b.Property<int>("CountryDataId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("New")
+                    b.Property<int?>("New")
                         .HasColumnType("int");
 
-                    b.Property<int>("Total")
+                    b.Property<int?>("Total")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -71,6 +71,31 @@ namespace covid19_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CountryDatas");
+                });
+
+            modelBuilder.Entity("covid19_api.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("covid19_api.Models.Case", b =>

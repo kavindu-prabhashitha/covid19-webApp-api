@@ -3,6 +3,7 @@ global using covid19_api.Services;
 global using covid19_api.Data;
 global using covid19_api.Models;
 using Microsoft.EntityFrameworkCore;
+using covid19_api.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICovid19DataService, Covid19DataService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 
 var app = builder.Build();
 
