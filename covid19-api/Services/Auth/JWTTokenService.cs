@@ -47,7 +47,7 @@ namespace covid19_api.Services.Auth
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.Now.AddMinutes(5),
+                    Expires = DateTime.Now.AddMinutes(2),
                     SigningCredentials = creds
                 };
 
@@ -76,6 +76,7 @@ namespace covid19_api.Services.Auth
 
         public async Task<UserRefreshToken> AddUserRefreshTokens(UserRefreshToken user)
         {
+
             _context.UserRefreshTokens.Add(user);
             await _context.SaveChangesAsync();
             return user;

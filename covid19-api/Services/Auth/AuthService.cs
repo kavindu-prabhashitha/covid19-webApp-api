@@ -104,6 +104,7 @@ namespace covid19_api.Services.Auth
             {
                 serviceResponse.Message = "Invalid attempt!";
                 serviceResponse.Success = false;
+                return serviceResponse;
             }
 
             var newJwtToken = _jwtTokenService.GenerateRefreshToken(user);
@@ -112,6 +113,7 @@ namespace covid19_api.Services.Auth
             {
                 serviceResponse.Message = "Invalid attempt!";
                 serviceResponse.Success = false;
+                return serviceResponse;
             }
 
             UserRefreshToken obj = new UserRefreshToken
@@ -122,6 +124,8 @@ namespace covid19_api.Services.Auth
 
             _jwtTokenService.DeleteUserRefreshTokens(username, token.RefreshToken);
             await _jwtTokenService.AddUserRefreshTokens(obj);
+
+            serviceResponse.Data = newJwtToken;
 
             return serviceResponse;
         }
