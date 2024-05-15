@@ -1,4 +1,5 @@
 ﻿using covid19_api.Dtos.Auth;
+using covid19_api.Dtos.RefreshToken;
 using covid19_api.Dtos.User;
 using covid19_api.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace covid19_api.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ServiceResponse<AuthTokenDto>>> Login(UserLoginDto request)
+        public async Task<ActionResult<ServiceResponse<UserLoginResponseDto>>> Login(UserLoginDto request)
         {
             var response = await _authService.Login(
                 request.Username, request.Password
@@ -61,6 +62,18 @@ namespace covid19_api.Controllers
         {
        
             var response = await _authService.GenerateRefreshToken(token);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("revoke-refresh-token")]
+        public async Task<ActionResult<ServiceResponse<string>>> RevokeRefreshToken(RevokeRefreshTokenRequestDto data)
+        {
+
+            var response = await _jwtTokenService.DeleteUserRefreshTokens(data.UserName, data.RefreshToken);
             if (!response.Success)
             {
                 return BadRequest(response);

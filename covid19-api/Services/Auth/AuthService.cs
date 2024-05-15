@@ -1,6 +1,8 @@
 ﻿
 using Azure;
+using Azure.Core;
 using covid19_api.Dtos.Auth;
+using covid19_api.Dtos.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,30 +26,40 @@ namespace covid19_api.Services.Auth
             _context = context;
             _jwtTokenService = jwtTokenService;
         }
-        public async Task<ServiceResponse<AuthTokenDto>> Login(string username, string password)
+        public async Task<ServiceResponse<UserLoginResponseDto>> Login(string username, string password)
         {
-            var response = new ServiceResponse<AuthTokenDto>();
+            var response = new ServiceResponse<UserLoginResponseDto>();
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
             if (user is null)
             {
                 response.Success = false;
                 response.Message = "User not Found";
+                return response;
             }
             else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Wrong Password or Username";
+                return response;
             }
             else
             {
                 var jwtToken = _jwtTokenService?.GenerateJWTTokens(user);
+
                 if(jwtToken == null)
                 {
                     response.Success = false;
                     response.Message = "Jwt Token Not Generated";
+                    return response;
                 }
-                response.Data = jwtToken;
+                var loginRes = new UserLoginResponseDto()
+                {
+                    UserName = username,
+                    AccessToken = jwtToken.AccessToken,
+                    RefreshToken = jwtToken.RefreshToken,
+                };
+                response.Data = loginRes;
             }
 
             return response;
@@ -122,7 +134,7 @@ namespace covid19_api.Services.Auth
                 UserName = username
             };
 
-            _jwtTokenService.DeleteUserRefreshTokens(username, token.RefreshToken);
+            await _jwtTokenService.DeleteUserRefreshTokens(username, token.RefreshToken);
             await _jwtTokenService.AddUserRefreshTokens(obj);
 
             serviceResponse.Data = newJwtToken;

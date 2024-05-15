@@ -11,7 +11,7 @@ namespace covid19_api.Services.Auth
 
         Task<UserRefreshToken> AddUserRefreshTokens(UserRefreshToken user);
 
-        void DeleteUserRefreshTokens(string username, string refreshToken);
+        Task<ServiceResponse<string>> DeleteUserRefreshTokens(string username, string refreshToken);
 
         UserRefreshToken GetSavedRefreshTokens(string username, string refreshToken);
 

@@ -52,6 +52,7 @@ namespace covid19_api.Controllers
             return Ok(serviceResponse);
         }
 
+  
         [HttpGet("get-db-data-country")]
         public async Task<ActionResult<ServiceResponse<List<CountryData>>>> GetCaseDataFromDbByCountry()
         {
@@ -78,6 +79,7 @@ namespace covid19_api.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpGet("get-all-country-names")]
         public async Task<ActionResult<ServiceResponse<List<CountryData>>>> GetAllCountryNames()
         {

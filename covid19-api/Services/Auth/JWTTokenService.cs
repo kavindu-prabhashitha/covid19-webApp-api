@@ -82,13 +82,24 @@ namespace covid19_api.Services.Auth
             return user;
         }
 
-        public void DeleteUserRefreshTokens(string username, string refreshToken)
+        public async Task<ServiceResponse<string>> DeleteUserRefreshTokens(string username, string refreshToken)
         {
+            var response = new ServiceResponse<string>();
             var item = _context.UserRefreshTokens.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken);
             if (item != null)
             {
-                _context.UserRefreshTokens.Remove(item);
+                 _context.UserRefreshTokens.Remove(item);
+                await _context.SaveChangesAsync();
+                response.Success = true;
+                response.Data = "Refresh token Deleted";
+                return response;
+
             }
+
+            response.Success = false;
+            response.Message = "Something went wrong";
+            return response;
+
         }
 
         public UserRefreshToken GetSavedRefreshTokens(string username, string refreshToken)
