@@ -14,6 +14,10 @@ namespace covid19_api.Data
         public DbSet<CountryData> CountryDatas => Set<CountryData>();
         public DbSet<Case> Cases => Set<Case>();
 
+        public DbSet<User> Users => Set<User>();
+
+        public DbSet<UserRefreshToken> UserRefreshTokens => Set<UserRefreshToken>();
+
 
     }
 }

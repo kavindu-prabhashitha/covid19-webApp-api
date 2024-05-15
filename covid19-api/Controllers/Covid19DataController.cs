@@ -1,10 +1,12 @@
 ﻿
 using covid19_api.Dtos.CountryData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace covid19_api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class Covid19DataController : ControllerBase
@@ -50,6 +52,7 @@ namespace covid19_api.Controllers
             return Ok(serviceResponse);
         }
 
+  
         [HttpGet("get-db-data-country")]
         public async Task<ActionResult<ServiceResponse<List<CountryData>>>> GetCaseDataFromDbByCountry()
         {
@@ -76,6 +79,7 @@ namespace covid19_api.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpGet("get-all-country-names")]
         public async Task<ActionResult<ServiceResponse<List<CountryData>>>> GetAllCountryNames()
         {
