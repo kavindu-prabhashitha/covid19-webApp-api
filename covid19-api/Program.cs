@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
+using covid19_api.Services.Role;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<ICovid19DataService, Covid19DataService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
+builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -49,6 +53,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ValidateIssuer = false,
             ValidateAudience = false,
+            ClockSkew=TimeSpan.Zero
         };
     });
 
@@ -60,6 +65,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.Use(async (ctx, next) => {
+    app.Logger.LogInformation($"Middleware Calles.... requestPath : {ctx.Request.Path}");
+        await next.Invoke(ctx);
+});
 
 app.UseHttpsRedirection();
 
