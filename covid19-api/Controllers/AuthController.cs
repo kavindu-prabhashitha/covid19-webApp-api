@@ -1,7 +1,9 @@
-﻿using covid19_api.Dtos.Auth;
+﻿using Azure.Core;
+using covid19_api.Dtos.Auth;
 using covid19_api.Dtos.RefreshToken;
 using covid19_api.Dtos.User;
 using covid19_api.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -24,6 +26,21 @@ namespace covid19_api.Controllers
         {
             var response = await _authService.Register(
                 new User { Username = request.Username }, request.Password
+            );
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("Register-Admin")]
+        [Authorize(Roles ="ADMINISTRATOR")]
+        public async Task<ActionResult<ServiceResponse<int>>> RegisterAdminUser(UserRegisterDto data)
+        {
+            var response = await _authService.RegisterAdminUser(
+            new User { Username = data.Username }, data.Password
             );
 
             if (!response.Success)

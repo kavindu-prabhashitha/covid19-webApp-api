@@ -83,6 +83,32 @@ namespace covid19_api.Services.Auth
             await _context.SaveChangesAsync();
             var response = new ServiceResponse<int>();
             response.Data = user.Id;
+            response.Message = "User Created Successfully";
+            return response;
+        }
+
+
+        public async Task<ServiceResponse<int>> RegisterAdminUser(User user, string password)
+        {
+            var serviceResponse = new ServiceResponse<int>();
+            if (await UserExists(user.Username))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Admin User Already exists";
+                return serviceResponse;
+            }
+
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            user.Role = Constants.UserRoles.ADMINISTRATOR;
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            var response = new ServiceResponse<int>();
+            response.Data = user.Id;
+            response.Message = "Admin Created Successfully";
             return response;
         }
 
