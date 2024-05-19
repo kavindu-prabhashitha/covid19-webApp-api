@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using covid19_api.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace covid19_api.Models
 {
@@ -9,6 +10,6 @@ namespace covid19_api.Models
         public string Username { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[0] ;
         public byte[] PasswordSalt { get; set; } = new byte[0];
-
+        public UserRoles Role { get; set; } = UserRoles.USER;
     }
 }

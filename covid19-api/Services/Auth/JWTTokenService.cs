@@ -1,4 +1,5 @@
-﻿using covid19_api.Dtos.Auth;
+﻿using covid19_api.Constants;
+using covid19_api.Dtos.Auth;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
@@ -38,7 +39,9 @@ namespace covid19_api.Services.Auth
 
                 var claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, getUserRole(user.Role))
+             
                     };
                 var tokenKey = Encoding.UTF8.GetBytes(appSettingsToken);
                 SigningCredentials creds = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature);
@@ -146,5 +149,21 @@ namespace covid19_api.Services.Auth
 
             return principal;
         }
+
+        private string getUserRole(UserRoles userRole)
+        {
+            var uRole = "0";
+            switch (userRole) {
+             case UserRoles.ADMINISTRATOR:
+                    uRole = "ADMINISTRATOR";
+                    break;
+            case UserRoles.USER:
+                uRole = "USER";
+                break;
+
+            }
+            return uRole;
+        }
+
     }
 }
