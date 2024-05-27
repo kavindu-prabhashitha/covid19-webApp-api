@@ -22,6 +22,21 @@ namespace covid19_api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("RolePermissionUserRole", b =>
+                {
+                    b.Property<int>("RolePermissionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserRolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolePermissionsId", "UserRolesId");
+
+                    b.HasIndex("UserRolesId");
+
+                    b.ToTable("RolePermissionUserRole");
+                });
+
             modelBuilder.Entity("covid19_api.Models.Case", b =>
                 {
                     b.Property<int>("Id")
@@ -68,6 +83,30 @@ namespace covid19_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CountryDatas");
+                });
+
+            modelBuilder.Entity("covid19_api.Models.RolePermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RPid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("covid19_api.Models.User", b =>
@@ -140,12 +179,28 @@ namespace covid19_api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Uid")
-                        .HasColumnType("int");
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("RolePermissionUserRole", b =>
+                {
+                    b.HasOne("covid19_api.Models.RolePermission", null)
+                        .WithMany()
+                        .HasForeignKey("RolePermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("covid19_api.Models.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("UserRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("covid19_api.Models.Case", b =>

@@ -1,5 +1,4 @@
-﻿using covid19_api.Constants;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace covid19_api.Models
 {
@@ -8,7 +7,8 @@ namespace covid19_api.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public UserRoles Uid { get; set; } = UserRoles.USER;
+        public string Uid { get; set; } = "ANONYMOUS";
         public int? Extends { get; set; } 
+        public List<RolePermission>? RolePermissions { get; set; }
     }
 }
