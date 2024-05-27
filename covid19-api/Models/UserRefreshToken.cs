@@ -16,6 +16,8 @@ namespace covid19_api.Models
 
         public bool IsActive { get; set; } = true;
 
+        public DateTime TokenExpireDateTime { get; set; } = new DateTime(2024,1,1);
+
 
     }
 }

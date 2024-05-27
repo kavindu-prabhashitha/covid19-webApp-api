@@ -18,7 +18,9 @@ namespace covid19_api.Data
 
         public DbSet<UserRefreshToken> UserRefreshTokens => Set<UserRefreshToken>();
 
-        public DbSet<UserRole> UserRole => Set<UserRole>();
+        public DbSet<UserRole> UserRoles => Set<UserRole>();
+
+        public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 
 
     }

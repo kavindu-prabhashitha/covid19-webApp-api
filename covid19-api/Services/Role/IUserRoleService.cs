@@ -1,9 +1,14 @@
-﻿using covid19_api.Models;
+﻿using covid19_api.Dtos.UserRole;
+using covid19_api.Models;
 
 namespace covid19_api.Services.Role
 {
     public interface IUserRoleService
     {
-        Task<ServiceResponse<List<UserRole>>> GetAllRoles();
+        Task<ServiceResponse<List<GetUserRoleDto>>> GetAllRoles();
+
+        Task<ServiceResponse<List<UserRole>>> AddUserRole(AddUserRoleDto roleData);
+
+        Task<ServiceResponse<GetUserRoleDto>> AddPermissionsForUserRole(AddPermissionsToUserRoleDto permissionData);
     }
 }

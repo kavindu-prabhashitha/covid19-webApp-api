@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using covid19_api.Dtos.Case;
 using covid19_api.Dtos.CountryData;
+using covid19_api.Dtos.RolePermission;
+using covid19_api.Dtos.UserRole;
 
 namespace covid19_api
 {
@@ -27,6 +29,15 @@ namespace covid19_api
             CreateMap<GetCountryDataDto, CountryData>();
             CreateMap<AddCountryDataDto, CountryData>();
             CreateMap<AddCaseDataDto, Case>();
+            CreateMap<AddUserRoleDto, UserRole>();
+            CreateMap<AddRolePermissionDto, RolePermission>();
+            CreateMap<GetRolePermissionDto, RolePermission>();
+            
+            // Role Permission to GetRolePermissionDto
+            CreateMap<RolePermission, GetRolePermissionDto>();
+
+            CreateMap<UserRole,GetUserRoleDto>();
+
         }
 
     }
