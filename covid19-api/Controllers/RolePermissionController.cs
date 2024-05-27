@@ -8,8 +8,8 @@ namespace covid19_api.Controllers
     [Route("api/[controller]")]
     public class RolePermissionController : ControllerBase
     {
-        private readonly IPermissionService _permissionService;
-        public RolePermissionController(IPermissionService permissionService) { 
+        private readonly IRolePermissionService _permissionService;
+        public RolePermissionController(IRolePermissionService permissionService) { 
             _permissionService = permissionService;
         }
 

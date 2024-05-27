@@ -2,7 +2,7 @@
 
 namespace covid19_api.Services.Permission
 {
-    public interface IPermissionService
+    public interface IRolePermissionService
     {
         Task<ServiceResponse<List<GetRolePermissionDto>>> GetAllPermissions();
 
