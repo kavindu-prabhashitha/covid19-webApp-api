@@ -30,6 +30,7 @@ namespace covid19_api.Services.Auth
         {
             var response = new ServiceResponse<UserLoginResponseDto>();
             var user = await _context.Users
+                .Include(x => x.Role)
                 .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
             if (user is null)
             {
@@ -79,6 +80,13 @@ namespace covid19_api.Services.Auth
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
+            //Get UserRole from the database
+            var userRole = await _context.UserRoles
+                .Where(x => x.Id == 2)
+                .FirstOrDefaultAsync();
+
+            user.Role = userRole;
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             var response = new ServiceResponse<int>();
@@ -102,7 +110,12 @@ namespace covid19_api.Services.Auth
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            user.Role = Constants.UserRoles.ADMINISTRATOR;
+            //Get Administrator role from db
+            var adminRole = await _context.UserRoles
+                .Where(x => x.Id == 1)
+                .FirstOrDefaultAsync();
+
+            user.Role = adminRole;
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -128,6 +141,7 @@ namespace covid19_api.Services.Auth
             var username = principal.Identity?.Name;
 
             var user = await _context.Users
+                .Include(x => x.Role)
                 .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
             if (user is null)
             {

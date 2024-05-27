@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace covid19_api.Services.Permission
 {
-    public class PermissionService : IPermissionService
+    public class RolePermissionService : IRolePermissionService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public PermissionService(DataContext context, IMapper mapper) {
+        public RolePermissionService(DataContext context, IMapper mapper) {
             _context = context;
             _mapper = mapper;
         }

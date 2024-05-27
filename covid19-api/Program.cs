@@ -10,6 +10,9 @@ using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
 using covid19_api.Services.Role;
 using covid19_api.Services.Permission;
+using Microsoft.AspNetCore.Authorization;
+using covid19_api.PermissionHandlers;
+using covid19_api.Services.UserClaims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,11 +40,21 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<ICovid19DataService, Covid19DataService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
+
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
+
+
+//Register Custom Authorize Attribute
+builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -68,6 +81,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+//Test Middleware Implementation
 app.Use(async (ctx, next) => {
     app.Logger.LogInformation($"Middleware Calles.... requestPath : {ctx.Request.Path}");
         await next.Invoke(ctx);

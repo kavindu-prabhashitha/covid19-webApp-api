@@ -40,7 +40,7 @@ namespace covid19_api.Services.Auth
                 var claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, getUserRole(user.Role))
+                new Claim(ClaimTypes.Role, user.Role!.Uid)
              
                     };
                 var tokenKey = Encoding.UTF8.GetBytes(appSettingsToken);
@@ -50,7 +50,7 @@ namespace covid19_api.Services.Auth
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.Now.AddMinutes(2),
+                    Expires = DateTime.Now.AddMinutes(15),
                     SigningCredentials = creds
                 };
 
