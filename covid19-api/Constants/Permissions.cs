@@ -1,4 +1,4 @@
-﻿namespace covid19_api.PermissionHandlers
+﻿namespace covid19_api.Constants
 {
     public enum Permissions
     {

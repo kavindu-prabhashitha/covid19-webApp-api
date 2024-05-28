@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
 using covid19_api.Services.Role;
-using covid19_api.Services.Permission;
 using Microsoft.AspNetCore.Authorization;
 using covid19_api.PermissionHandlers;
 using covid19_api.Services.UserClaims;

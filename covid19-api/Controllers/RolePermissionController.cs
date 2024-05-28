@@ -1,5 +1,5 @@
 ﻿using covid19_api.Dtos.RolePermission;
-using covid19_api.Services.Permission;
+using covid19_api.Services.Role;
 using Microsoft.AspNetCore.Mvc;
 
 namespace covid19_api.Controllers

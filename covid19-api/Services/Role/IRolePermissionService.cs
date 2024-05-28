@@ -1,6 +1,6 @@
 ﻿using covid19_api.Dtos.RolePermission;
 
-namespace covid19_api.Services.Permission
+namespace covid19_api.Services.Role
 {
     public interface IRolePermissionService
     {
