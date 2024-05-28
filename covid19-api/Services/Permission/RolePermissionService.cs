@@ -42,6 +42,7 @@ namespace covid19_api.Services.Permission
 
             _context.RolePermissions.Add(_mapper.Map<RolePermission>(roleData));
             await _context.SaveChangesAsync();
+            response = await GetAllPermissions();
             response.Message = "Role Permission Added";
             return response;
         }

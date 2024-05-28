@@ -2,6 +2,8 @@
 using covid19_api.Dtos.Auth;
 using covid19_api.Dtos.RefreshToken;
 using covid19_api.Dtos.User;
+using covid19_api.Dtos.UserRole;
+using covid19_api.PermissionHandlers;
 using covid19_api.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -98,5 +100,17 @@ namespace covid19_api.Controllers
             return Ok(response);
         }
 
+        [HttpPost("UpdateUserRole")]
+        [HasPermission(Permissions.UPDATE_ROLE)]    
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateUserRole(UpdateUserRoleDto data)
+        {
+            var response = await _authService.UpdateUserRole(data);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
     }
 }

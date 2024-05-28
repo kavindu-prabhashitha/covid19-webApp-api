@@ -46,8 +46,8 @@ builder.Services.AddScoped<ICovid19DataService, Covid19DataService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
-builder.Services.AddScoped<IPermissionService, PermissionService>();
 
+builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
 

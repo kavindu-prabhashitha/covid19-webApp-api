@@ -1,8 +1,10 @@
 ﻿
+using AutoMapper;
 using Azure;
 using Azure.Core;
 using covid19_api.Dtos.Auth;
 using covid19_api.Dtos.User;
+using covid19_api.Dtos.UserRole;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,14 +19,17 @@ namespace covid19_api.Services.Auth
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
         private readonly IJWTTokenService _jwtTokenService;
+        private readonly IMapper _mapper;
 
         public AuthService(
             DataContext context, 
             IConfiguration configuration,
-            IJWTTokenService jwtTokenService) {
+            IJWTTokenService jwtTokenService,
+            IMapper mapper) {
             _configuration = configuration;
             _context = context;
             _jwtTokenService = jwtTokenService;
+            _mapper = mapper;
         }
         public async Task<ServiceResponse<UserLoginResponseDto>> Login(string username, string password)
         {
@@ -235,7 +240,33 @@ namespace covid19_api.Services.Auth
 
         }
 
+        public async Task<ServiceResponse<GetUserDto>> UpdateUserRole(UpdateUserRoleDto data)
+        {
+            var response = new ServiceResponse<GetUserDto>();
 
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == data.UserId);  
+            if (user is null)
+            {
+                response.Success = false;
+                response.Message = "User Does not exist";
+                return response;
+            }
+
+            var newRole = await _context.UserRoles.FirstOrDefaultAsync(x => x.Id == data.RoleId);
+
+            if (newRole is null)
+            {
+                response.Success = false;
+                response.Message = "Provided Role Not Found";
+                return response;
+            }
+
+            user.Role = newRole;
+            await _context.SaveChangesAsync();
+            response.Data = _mapper.Map<GetUserDto>(user);
+
+            return response;
+        }
     }
 
 }
