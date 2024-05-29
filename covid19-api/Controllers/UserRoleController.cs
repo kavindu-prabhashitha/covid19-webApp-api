@@ -21,6 +21,13 @@ namespace covid19_api.Controllers
             return Ok(data);
         }
 
+        [HttpGet("GetRoleById")]
+        public async Task<ActionResult<ServiceResponse<UserRole>>> GetRoleById(int id)
+        {
+            var data = await _roleService.GetRoleById(id);
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<AddUserRoleDto>>> AddUserRole(AddUserRoleDto roleData)
         {

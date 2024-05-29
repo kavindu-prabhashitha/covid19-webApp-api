@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
-namespace covid19_api.Services
+namespace covid19_api.Services.UserClaims
 {
     public class ClaimsTransformationService : IClaimsTransformation
     {

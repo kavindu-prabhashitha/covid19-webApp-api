@@ -21,10 +21,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\" />
-    <Folder Include="Providers\" />
-    <Folder Include="Services\Permission\" />
-  </ItemGroup>
-
 </Project>

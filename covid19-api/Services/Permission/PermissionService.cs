@@ -1,7 +1,6 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace covid19_api.PermissionHandlers
+namespace covid19_api.Services.Permission
 {
     public class PermissionService : IPermissionService
     {
@@ -11,17 +10,17 @@ namespace covid19_api.PermissionHandlers
         {
             _context = context;
         }
-        public async Task<List<string>> GetPermissionsAsync(int memberId)
+        public async Task<List<int>> GetPermissionsAsync(int memberId)
         {
-            var userPermissionList = new List<string>();
-            var userRolePermission =  await _context.Users
+            var userPermissionList = new List<int>();
+            var userRolePermission = await _context.Users
                   .Include(x => x.Role)
                   .ThenInclude(x => x.RolePermissions)
                   .Where(x => x.Id == memberId)
                   .Select(x => x.Role!.RolePermissions)
                   .FirstOrDefaultAsync();
 
-            if(userRolePermission is not null)
+            if (userRolePermission is not null)
             {
                 userRolePermission.ForEach(userRolePermission =>
                 {
@@ -30,7 +29,7 @@ namespace covid19_api.PermissionHandlers
             }
 
 
-            
+
             return userPermissionList;
         }
     }

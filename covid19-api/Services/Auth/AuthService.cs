@@ -5,6 +5,7 @@ using Azure.Core;
 using covid19_api.Dtos.Auth;
 using covid19_api.Dtos.User;
 using covid19_api.Dtos.UserRole;
+using covid19_api.Services.JwtToken;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

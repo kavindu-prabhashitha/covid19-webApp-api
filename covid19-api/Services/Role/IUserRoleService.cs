@@ -10,5 +10,7 @@ namespace covid19_api.Services.Role
         Task<ServiceResponse<List<UserRole>>> AddUserRole(AddUserRoleDto roleData);
 
         Task<ServiceResponse<GetUserRoleDto>> AddPermissionsForUserRole(AddPermissionsToUserRoleDto permissionData);
+
+        Task<ServiceResponse<GetUserRoleDto>> GetRoleById(int roleId);
     }
 }

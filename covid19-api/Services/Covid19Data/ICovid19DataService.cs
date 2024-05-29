@@ -1,11 +1,11 @@
 ﻿using covid19_api.Dtos.CountryData;
 using covid19_api.Models;
 
-namespace covid19_api.Services
+namespace covid19_api.Services.Covid19Data
 {
     public interface ICovid19DataService
     {
-        
+
         Task<ServiceResponse<List<GetCountryDataDto>>> GetAllCaseDataTest();
 
         Task<ServiceResponse<List<GetCountryDataDto>>> GetCaseDataByCountry(string countryName);

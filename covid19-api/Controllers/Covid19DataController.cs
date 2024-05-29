@@ -1,5 +1,6 @@
 ﻿
 using covid19_api.Dtos.CountryData;
+using covid19_api.Services.Covid19Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

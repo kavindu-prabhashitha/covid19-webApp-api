@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace covid19_api.Services.Auth
+namespace covid19_api.Services.JwtToken
 {
     public class JWTTokenService : IJWTTokenService
     {
@@ -29,7 +29,7 @@ namespace covid19_api.Services.Auth
         {
             try
             {
-               
+
                 var appSettingsToken = _configuration.GetSection("AppSettings:Token").Value;
 
                 if (appSettingsToken is null)
@@ -41,12 +41,12 @@ namespace covid19_api.Services.Auth
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, user.Role!.Uid)
-             
+
                     };
                 var tokenKey = Encoding.UTF8.GetBytes(appSettingsToken);
                 SigningCredentials creds = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature);
 
-                
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
@@ -57,9 +57,11 @@ namespace covid19_api.Services.Auth
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var refreshToken = GenerateRefreshToken();
-                return new AuthTokenDto { 
-                    AccessToken = tokenHandler.WriteToken(token), 
-                    RefreshToken = refreshToken };
+                return new AuthTokenDto
+                {
+                    AccessToken = tokenHandler.WriteToken(token),
+                    RefreshToken = refreshToken
+                };
             }
             catch (Exception ex)
             {
@@ -91,7 +93,7 @@ namespace covid19_api.Services.Auth
             var item = _context.UserRefreshTokens.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken);
             if (item != null)
             {
-                 _context.UserRefreshTokens.Remove(item);
+                _context.UserRefreshTokens.Remove(item);
                 await _context.SaveChangesAsync();
                 response.Success = true;
                 response.Data = "Refresh token Deleted";
@@ -153,13 +155,14 @@ namespace covid19_api.Services.Auth
         private string getUserRole(UserRoles userRole)
         {
             var uRole = "0";
-            switch (userRole) {
-             case UserRoles.ADMINISTRATOR:
+            switch (userRole)
+            {
+                case UserRoles.ADMINISTRATOR:
                     uRole = "ADMINISTRATOR";
                     break;
-            case UserRoles.USER:
-                uRole = "USER";
-                break;
+                case UserRoles.USER:
+                    uRole = "USER";
+                    break;
 
             }
             return uRole;

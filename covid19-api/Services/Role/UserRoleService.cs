@@ -92,5 +92,17 @@ namespace covid19_api.Services.Role
             response.Data = roles.Select(r=> _mapper.Map<GetUserRoleDto>(r)).ToList();
             return response;
         }
+
+        public async Task<ServiceResponse<GetUserRoleDto>> GetRoleById(int roleId)
+        {
+            var response = new ServiceResponse<GetUserRoleDto>();
+            var role = await _context.UserRoles
+                .Include(r => r.RolePermissions)
+                .Where(x => x.Id == roleId)
+                .FirstOrDefaultAsync();
+
+            response.Data = _mapper.Map<GetUserRoleDto>(role);
+            return response;
+        }
     }
 }

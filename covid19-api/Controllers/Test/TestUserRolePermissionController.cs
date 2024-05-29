@@ -1,8 +1,8 @@
 ﻿using covid19_api.Constants;
-using covid19_api.PermissionHandlers;
+using covid19_api.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace covid19_api.Controllers
+namespace covid19_api.Controllers.Test
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -2,27 +2,27 @@
 {
     public enum Permissions
     {
-        ADD_USER_DATA,
-        UPDATE_USER_DATA,
-        DELETE_USER_DATA,
-        GET_USER_DATA,
+        ADD_USER_DATA =1,
+        UPDATE_USER_DATA =2,
+        DELETE_USER_DATA =3,
+        GET_USER_DATA =4,
 
         //Super Admin Previelleges
-        CREATE_USER_ACCOUNT,
-        CREATE_ADMIN_ACCOUNT,
-        CREATE_ROLE,
-        DELETE_ROLE,
-        UPDATE_ROLE,
+        CREATE_USER_ACCOUNT =5,
+        CREATE_ADMIN_ACCOUNT =6,
+        CREATE_ROLE =7,
+        DELETE_ROLE =8,
+        UPDATE_ROLE =9,
 
-        CREATE_PERMISSION,
-        DELETE_PERMISSION,
-        GET_PERMISSIONS,
-        UPDATE_PERMISSION,
+        CREATE_PERMISSION =10,
+        DELETE_PERMISSION =11,
+        GET_PERMISSIONS =12,
+        UPDATE_PERMISSION =13,
 
         //Covid19 Data
-        SAVE_COVID19_CASE,
-        SAVE_COVID19_COUNTRY,
-        UPDATE_COVID19_COUNTRY_CASE
+        SAVE_COVID19_CASE = 14,
+        SAVE_COVID19_COUNTRY = 15,
+        UPDATE_COVID19_COUNTRY_CASE =16
 
     }
 }

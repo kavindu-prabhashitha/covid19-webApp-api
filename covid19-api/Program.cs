@@ -10,8 +10,12 @@ using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
 using covid19_api.Services.Role;
 using Microsoft.AspNetCore.Authorization;
-using covid19_api.PermissionHandlers;
 using covid19_api.Services.UserClaims;
+using covid19_api.Services.Permission;
+using covid19_api.Services.JwtToken;
+using covid19_api.Services.Covid19Data;
+using covid19_api.Providers;
+using covid19_api.Handlers;
 
 
 var builder = WebApplication.CreateBuilder(args);

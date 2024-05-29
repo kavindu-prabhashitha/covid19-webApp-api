@@ -1,7 +1,7 @@
 ﻿using covid19_api.Dtos.Auth;
 using System.Security.Claims;
 
-namespace covid19_api.Services.Auth
+namespace covid19_api.Services.JwtToken
 {
     public interface IJWTTokenService
     {

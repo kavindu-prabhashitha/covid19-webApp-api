@@ -4,11 +4,11 @@ using covid19_api.Dtos.Auth;
 using covid19_api.Dtos.RefreshToken;
 using covid19_api.Dtos.User;
 using covid19_api.Dtos.UserRole;
-using covid19_api.PermissionHandlers;
+using covid19_api.Handlers;
 using covid19_api.Services.Auth;
+using covid19_api.Services.JwtToken;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace covid19_api.Controllers
 {
