@@ -49,6 +49,32 @@ namespace covid19_api.Services.Role
             return response;
         }
 
+        public async Task<ServiceResponse<List<GetRolePermissionDto>>> UpdateRolePermissions(UpdateRolePermissionDto data)
+        {
+            var response = new ServiceResponse<List<GetRolePermissionDto>>();
+            if (data == null)
+            {
+                response.Success = false;
+                response.Message = "Invalid Data Provided";
+                return response ;
+            }
+
+            var roleDbRec = await _context.RolePermissions.Where(x=> x.Id == data.Id).FirstOrDefaultAsync();
+
+            if (roleDbRec is null)
+            {
+                response.Success = false;
+                response.Message = "Permission Not Found";
+                return response ;
+            }
+
+            if (data.Name is not null)roleDbRec.Name = data.Name;
+            if (data.Description is not null) roleDbRec.Description = data.Description;
+            await _context.SaveChangesAsync();
+
+            return response;
+        }
+
         public async Task<ServiceResponse<List<GetRolePermissionDto>>> DeleteRolePermissions(DeleteRolePermissionDto data)
         {
             var response = new ServiceResponse<List<GetRolePermissionDto>>();

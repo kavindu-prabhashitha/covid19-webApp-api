@@ -29,10 +29,14 @@ namespace covid19_api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<AddRolePermissionDto>>> UpdateRolePermission(UpdateRolePermissionDto rolePermissionData)
+        public async Task<ActionResult<ServiceResponse<GetRolePermissionDto>>> UpdateRolePermission(UpdateRolePermissionDto rolePermissionData)
         {
-            var response = new ServiceResponse<UpdateRolePermissionDto>();
-            response.Data = rolePermissionData;
+
+            var response = await _permissionService.UpdateRolePermissions(rolePermissionData);
+            if (response is null)
+            {
+                return NotFound(response);
+            }
             return Ok(response);
         }
     }

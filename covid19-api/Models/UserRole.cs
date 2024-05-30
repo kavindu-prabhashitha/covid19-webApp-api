@@ -10,5 +10,7 @@ namespace covid19_api.Models
         public string Uid { get; set; } = "ANONYMOUS";
         public int? Extends { get; set; } 
         public List<RolePermission>? RolePermissions { get; set; }
+
+        public string? Description { get; set; } = string.Empty;
     }
 }

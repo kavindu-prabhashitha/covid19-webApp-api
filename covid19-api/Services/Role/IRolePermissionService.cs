@@ -9,5 +9,7 @@ namespace covid19_api.Services.Role
         Task<ServiceResponse<List<GetRolePermissionDto>>> AddRolePermissions(AddRolePermissionDto roleData);
 
         Task<ServiceResponse<List<GetRolePermissionDto>>> DeleteRolePermissions(DeleteRolePermissionDto data);
+
+        Task<ServiceResponse<List<GetRolePermissionDto>>> UpdateRolePermissions(UpdateRolePermissionDto data);
     }
 }
