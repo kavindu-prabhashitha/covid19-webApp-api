@@ -65,6 +65,7 @@ namespace covid19_api.Services.Auth
                     UserName = username,
                     AccessToken = jwtToken.AccessToken,
                     RefreshToken = jwtToken.RefreshToken,
+                    UserId = user.Id,
                 };
                 response.Data = loginRes;
             }

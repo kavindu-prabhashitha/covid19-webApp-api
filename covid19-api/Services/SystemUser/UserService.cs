@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using covid19_api.Dtos.User;
+using covid19_api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace covid19_api.Services.SystemUser
@@ -31,9 +32,52 @@ namespace covid19_api.Services.SystemUser
             return response;
         }
 
-        public Task<ServiceResponse<GetUserDto>> GetUserById(int id)
+        public async Task<ServiceResponse<GetUserDto>> GetUserById(int id)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<GetUserDto>();
+
+            var user = await _context.Users
+                .Include(x => x.Role)
+                .ThenInclude(x => x.RolePermissions)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (user is not null)
+            {
+                response.Data =  _mapper.Map<GetUserDto>(user);
+                response.Message = "All Users in the System";
+                return response;
+            }
+
+            response.Success = false;
+            response.Message = "Operation Failed";
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<int>>> GetPermissionsByUserId(int id)
+        {
+            var response = new ServiceResponse<List<int>>();
+
+            var user = await _context.Users
+                .Include(x => x.Role)
+                .ThenInclude(x => x.RolePermissions)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (user?.Role?.RolePermissions is not null)
+            {
+                var userPermissions = user?.Role?.RolePermissions?.Select(x => x.RPid).ToList();
+                response.Data = userPermissions;
+                response.Message = "All Permissons related to user in the System";
+                return response;
+            }
+
+            response.Success = false;
+            response.Data = new List<int>();
+            response.Message = "Operation Failed";
+
+            return response;
         }
     }
 }

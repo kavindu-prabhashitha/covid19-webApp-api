@@ -25,5 +25,27 @@ namespace covid19_api.Controllers
             }
             return Ok(data);
         }
+
+        [HttpGet("GetUserById")]
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> GetUserById(int id)
+        {
+            var data = await _userService.GetUserById(id);
+            if (!data.Success)
+            {
+                return BadRequest(data);
+            }
+            return Ok(data);
+        }
+
+        [HttpGet("GetPermissionsByUserId")]
+        public async Task<ActionResult<ServiceResponse<List<int>>>> GetPermissionsByUserId(int id)
+        {
+            var data = await _userService.GetPermissionsByUserId(id);
+            if (!data.Success)
+            {
+                return BadRequest(data);
+            }
+            return Ok(data);
+        }
     }
 }

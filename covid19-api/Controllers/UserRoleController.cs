@@ -69,5 +69,19 @@ namespace covid19_api.Controllers
             return BadRequest("Operation Failed");
         }
 
+        [HttpPost("remove-permissions-from-role")]
+        public async Task<ActionResult<ServiceResponse<UserRole>>> RemovePermissionsFromUserRole(RemovePermissionFromUserRoleDto roleData)
+        {
+
+
+            if (roleData != null)
+            {
+                var data = await _roleService.RemovePermissionsFromUserRole(roleData);
+                return Ok(data);
+            }
+
+            return BadRequest("Operation Failed");
+        }
+
     }
 }

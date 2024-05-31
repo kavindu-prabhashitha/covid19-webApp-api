@@ -102,7 +102,7 @@ namespace covid19_api.Controllers
         }
 
         [HttpPost("UpdateUserRole")]
-        [HasPermission(Permissions.UPDATE_ROLE)]    
+        [HasPermission(Permissions.MANAGE_USER)]    
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateUserRole(UpdateUserRoleDto data)
         {
             var response = await _authService.UpdateUserRole(data);

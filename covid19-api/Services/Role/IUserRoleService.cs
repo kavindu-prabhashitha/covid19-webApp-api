@@ -14,5 +14,7 @@ namespace covid19_api.Services.Role
         Task<ServiceResponse<GetUserRoleDto>> GetRoleById(int roleId);
 
         Task<ServiceResponse<List<GetUserRoleDto>>> UpdateRole(UpdateRoleDto data);
+
+        Task<ServiceResponse<GetUserRoleDto>> RemovePermissionsFromUserRole(RemovePermissionFromUserRoleDto data);
     }
 }

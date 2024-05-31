@@ -132,5 +132,46 @@ namespace covid19_api.Services.Role
             return response;
         }
 
+        public async Task<ServiceResponse<GetUserRoleDto>> RemovePermissionsFromUserRole(RemovePermissionFromUserRoleDto data)
+        {
+            var response = new ServiceResponse<GetUserRoleDto>();
+            if (data is null)
+            {
+                response.Success = false;
+                response.Message = "Invalid Permission Data";
+                return response;
+            }
+
+            var userRole = await _context.UserRoles
+                .Include(r => r.RolePermissions)
+                .Where(r => r.Id == data.UserRoleId)
+                .FirstOrDefaultAsync();
+
+            var permission = await _context.RolePermissions
+                .Where(x => x.Id == data.PermissionId)
+                .FirstOrDefaultAsync();
+
+            if (userRole is null)
+            {
+                response.Success = false;
+                response.Message = "UserRole not found";
+                return response;
+            }
+
+            if (permission is null)
+            {
+                response.Success = false;
+                response.Message = "Permission not found";
+                return response;
+            }
+
+             _context.RolePermissions.Remove(permission);
+            await _context.SaveChangesAsync();
+
+            response.Message = "Permission Related to user role is deleted";
+            return response;
+
+        }
+
     }
 }

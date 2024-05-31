@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace covid19_api.Controllers
 {
-    [Authorize]
+   
     [ApiController]
     [Route("api/[controller]")]
     public class Covid19DataController : ControllerBase
