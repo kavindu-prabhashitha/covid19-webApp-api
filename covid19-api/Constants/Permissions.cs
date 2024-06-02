@@ -38,7 +38,9 @@
 
         CREATE_USER = 27,
 
-        UPDATE_USER = 28
+        UPDATE_USER = 28,
+
+        REGISTER_ADMINISTRATOR_USER = 29,
 
     }
 }

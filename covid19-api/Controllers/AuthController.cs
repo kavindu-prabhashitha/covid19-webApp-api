@@ -27,6 +27,9 @@ namespace covid19_api.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> RegisterUser(UserRegisterDto request)
         {
+            if(request.Username == string.Empty && request.Password == string.Empty) {
+                return BadRequest("Invalid data");
+            }
             var response = await _authService.Register(
                 new User { Username = request.Username }, request.Password
             );
