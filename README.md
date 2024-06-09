@@ -3,6 +3,8 @@
 ##### .Net (8.0) 
 - This project was generated with .Net (8.0)
 
+## Frontend Application Repo
+- [covid19-webapp-frontend](https://github.com/kavindu-prabhashitha/covid19-webApp-ui)
 
 ## Features
 
