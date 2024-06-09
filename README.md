@@ -26,6 +26,9 @@ And of course Covid19-WebApp-api itself is open source with a [public repository
 
 ## Screenshots
 
-![Swagger UI](https://drive.google.com/uc?export=view&id=132VAiFVovJP8rkw3yophar_UkGscEP6-)
+- ![Swagger UI](https://drive.google.com/uc?export=view&id=132VAiFVovJP8rkw3yophar_UkGscEP6-)
+- ![Controller Data](https://drive.google.com/uc?export=view&id=1SGJn1Q8Vk3Uz70ZV3fKc6U5QxXIB0qVl)
+- ![Controller Data](https://drive.google.com/uc?export=view&id=1maTFRAqUbnrAVELlVoHIMmfinLr6cs7I)
+
 
 
