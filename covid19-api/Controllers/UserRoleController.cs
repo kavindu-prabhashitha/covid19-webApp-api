@@ -21,6 +21,13 @@ namespace covid19_api.Controllers
             return Ok(data);
         }
 
+        [HttpGet("GetRoleById")]
+        public async Task<ActionResult<ServiceResponse<UserRole>>> GetRoleById(int id)
+        {
+            var data = await _roleService.GetRoleById(id);
+            return Ok(data);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<AddUserRoleDto>>> AddUserRole(AddUserRoleDto roleData)
         {
@@ -36,15 +43,19 @@ namespace covid19_api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<AddUserRoleDto>>> UpdateUserRole(UpdateUserRoleDto roleData)
+        public async Task<ActionResult<ServiceResponse<GetUserRoleDto>>> UpdateUserRole(UpdateRoleDto roleData)
         {
-            var response = new ServiceResponse<UpdateUserRoleDto>();
-            response.Data = roleData;
+
+            var response = await _roleService.UpdateRole(roleData);
+            if (response is null)
+            {
+                return NotFound(response);
+            }
 
             return Ok(response);
         }
 
-        [HttpPost("add-permisions-to-role")]
+        [HttpPost("add-permissions-to-role")]
         public async Task<ActionResult<ServiceResponse<UserRole>>> AddPermissionsToUserRole(AddPermissionsToUserRoleDto roleData)
         {
 
@@ -52,6 +63,20 @@ namespace covid19_api.Controllers
             if (roleData != null)
             {
                 var data = await _roleService.AddPermissionsForUserRole(roleData);
+                return Ok(data);
+            }
+
+            return BadRequest("Operation Failed");
+        }
+
+        [HttpPost("remove-permissions-from-role")]
+        public async Task<ActionResult<ServiceResponse<UserRole>>> RemovePermissionsFromUserRole(RemovePermissionFromUserRoleDto roleData)
+        {
+
+
+            if (roleData != null)
+            {
+                var data = await _roleService.RemovePermissionsFromUserRole(roleData);
                 return Ok(data);
             }
 

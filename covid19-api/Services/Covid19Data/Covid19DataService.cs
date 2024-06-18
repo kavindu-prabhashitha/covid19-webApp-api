@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 
 
-namespace covid19_api.Services
+namespace covid19_api.Services.Covid19Data
 {
     public class Covid19DataService : ICovid19DataService
     {
         private readonly string apiEndpoint = "https://api.api-ninjas.com/v1/covid19";
+
+        // API KEY from Net-Ninja API service
         private readonly string apiKey = "z7ypjrRoVu3bWygaDQaC2g==9zF0jFvHx1lKIBvF";
         private HttpClient _httpClient;
         private readonly IMapper _mapper;
@@ -18,8 +20,8 @@ namespace covid19_api.Services
 
         public Covid19DataService(IMapper mapper, DataContext context)
         {
-            this._httpClient = new HttpClient();
-            this._httpClient.DefaultRequestHeaders.Add("X-Api-Key", this.apiKey);
+            _httpClient = new HttpClient();
+            _httpClient.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
 
             _mapper = mapper;
             _context = context;
@@ -33,7 +35,7 @@ namespace covid19_api.Services
 
             try
             {
-                var response = await this._httpClient.GetAsync(this.apiEndpoint + "?country=canada");
+                var response = await _httpClient.GetAsync(apiEndpoint + "?country=canada");
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 countryDataList = JsonConvert.DeserializeObject<List<GetCountryDataDto>>(apiResponse);
 
@@ -48,7 +50,7 @@ namespace covid19_api.Services
                 }
 
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
@@ -65,12 +67,12 @@ namespace covid19_api.Services
 
             try
             {
-                var response = await this._httpClient.GetAsync(this.apiEndpoint + "?country=" + countryName);
+                var response = await _httpClient.GetAsync(apiEndpoint + "?country=" + countryName);
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 countryDataList = JsonConvert.DeserializeObject<List<GetCountryDataDto>>(apiResponse);
                 serviceResponse.Data = countryDataList;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
@@ -86,7 +88,7 @@ namespace covid19_api.Services
             List<CountryData> countryData = new List<CountryData>();
             try
             {
-                var response = await this._httpClient.GetAsync(this.apiEndpoint + "?country=" + countryName);
+                var response = await _httpClient.GetAsync(apiEndpoint + "?country=" + countryName);
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 countryDataList = JsonConvert.DeserializeObject<List<GetCountryDataDto>>(apiResponse);
 
@@ -109,7 +111,7 @@ namespace covid19_api.Services
                 serviceResponse.Data = countryData;
                 serviceResponse.Message = $"Imported Data into Db for {countryName}";
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
@@ -169,7 +171,7 @@ namespace covid19_api.Services
                     throw new Exception($"Country Data with Id '{updateCountryData.Id} not found");
                 }
 
-                if(caseData is null)
+                if (caseData is null)
                 {
                     throw new Exception($"Cseata with Id '{updateCountryData.Case.Id}' not found");
                 }
@@ -207,17 +209,17 @@ namespace covid19_api.Services
                 serviceResponse.Success = true;
                 serviceResponse.Message = "All Country Data List";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
 
             }
-            
 
-        return serviceResponse;
+
+            return serviceResponse;
         }
     }
 
- 
+
 }

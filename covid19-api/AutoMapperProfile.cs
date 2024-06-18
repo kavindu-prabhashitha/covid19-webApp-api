@@ -2,6 +2,7 @@
 using covid19_api.Dtos.Case;
 using covid19_api.Dtos.CountryData;
 using covid19_api.Dtos.RolePermission;
+using covid19_api.Dtos.User;
 using covid19_api.Dtos.UserRole;
 
 namespace covid19_api
@@ -37,6 +38,7 @@ namespace covid19_api
             CreateMap<RolePermission, GetRolePermissionDto>();
 
             CreateMap<UserRole,GetUserRoleDto>();
+            CreateMap<User, GetUserDto>();
 
         }
 

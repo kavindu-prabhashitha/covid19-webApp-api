@@ -9,10 +9,14 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
 using covid19_api.Services.Role;
-using covid19_api.Services.Permission;
 using Microsoft.AspNetCore.Authorization;
-using covid19_api.PermissionHandlers;
 using covid19_api.Services.UserClaims;
+using covid19_api.Services.Permission;
+using covid19_api.Services.JwtToken;
+using covid19_api.Services.Covid19Data;
+using covid19_api.Providers;
+using covid19_api.Handlers;
+using covid19_api.Services.SystemUser;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,8 +50,9 @@ builder.Services.AddScoped<ICovid19DataService, Covid19DataService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
-builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
 

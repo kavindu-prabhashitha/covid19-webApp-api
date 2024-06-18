@@ -1,7 +1,8 @@
-﻿using covid19_api.PermissionHandlers;
+﻿using covid19_api.Constants;
+using covid19_api.Handlers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace covid19_api.Controllers
+namespace covid19_api.Controllers.Test
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -17,7 +18,7 @@ namespace covid19_api.Controllers
         }
 
         [HttpGet("CreateUser")]
-        [HasPermission(Permissions.ADD_USER_DATA)]
+        [HasPermission(Permissions.CREATE_USER)]
         public ActionResult<ServiceResponse<string>> AddUserData()
         {
             var response = new ServiceResponse<string>();
@@ -27,7 +28,7 @@ namespace covid19_api.Controllers
         }
 
         [HttpGet("UpdateUser")]
-        [HasPermission(Permissions.UPDATE_USER_DATA)]
+        [HasPermission(Permissions.UPDATE_USER)]
         public ActionResult<ServiceResponse<string>> UpdateUserData()
         {
             var response = new ServiceResponse<string>();

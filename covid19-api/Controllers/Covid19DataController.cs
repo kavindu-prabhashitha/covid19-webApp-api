@@ -1,12 +1,15 @@
 ﻿
+using covid19_api.Constants;
 using covid19_api.Dtos.CountryData;
+using covid19_api.Handlers;
+using covid19_api.Services.Covid19Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace covid19_api.Controllers
 {
-    [Authorize]
+   
     [ApiController]
     [Route("api/[controller]")]
     public class Covid19DataController : ControllerBase
@@ -63,12 +66,14 @@ namespace covid19_api.Controllers
         }
 
         [HttpPost]
+        [HasPermission(Permissions.ADD_CASE)]
         public async Task<ActionResult<ServiceResponse<List<CountryData>>>> AddCountryData(AddCountryDataDto newCountryData)
         {
             return Ok(await this._covid19DataService.AddCase(newCountryData));
         }
 
         [HttpPut]
+        [HasPermission(Permissions.UPDATE_CASE)]
         public async Task<ActionResult<ServiceResponse<CountryData>>> UpdateCountryCaseData(UpdateCountryDataDto updateCountryData)
         {
             var response = await _covid19DataService.UpdateCountryCase(updateCountryData);

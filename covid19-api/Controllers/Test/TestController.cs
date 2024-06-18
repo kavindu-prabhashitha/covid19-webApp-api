@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace covid19_api.Controllers
+namespace covid19_api.Controllers.Test
 {
     [Authorize]
     [ApiController]
@@ -12,7 +12,8 @@ namespace covid19_api.Controllers
     public class TestController : ControllerBase
     {
         private readonly IUserClaimsService _userClaimsService;
-        public TestController(IUserClaimsService userClaimsService) {
+        public TestController(IUserClaimsService userClaimsService)
+        {
             _userClaimsService = userClaimsService;
         }
 
@@ -56,7 +57,7 @@ namespace covid19_api.Controllers
             var userRole = User?.FindFirstValue(ClaimTypes.Role);
             var userRoleClaims = User?.FindAll(ClaimTypes.Role);
             var roles = userRoleClaims?.Select(c => c.Value).ToList();
-            return Ok(new {userName,userRole,roles});
+            return Ok(new { userName, userRole, roles });
         }
 
         [HttpGet("get-claim-data-from-service")]
@@ -69,6 +70,8 @@ namespace covid19_api.Controllers
             var roles = userRoleClaims?.Select(c => c.Value).ToList();
             return Ok(new { userName, userRole, roles });
         }
+
+
 
     }
 }

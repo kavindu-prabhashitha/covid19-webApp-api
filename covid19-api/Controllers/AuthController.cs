@@ -1,11 +1,14 @@
 ﻿using Azure.Core;
+using covid19_api.Constants;
 using covid19_api.Dtos.Auth;
 using covid19_api.Dtos.RefreshToken;
 using covid19_api.Dtos.User;
+using covid19_api.Dtos.UserRole;
+using covid19_api.Handlers;
 using covid19_api.Services.Auth;
+using covid19_api.Services.JwtToken;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace covid19_api.Controllers
 {
@@ -24,6 +27,9 @@ namespace covid19_api.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> RegisterUser(UserRegisterDto request)
         {
+            if(request.Username == string.Empty && request.Password == string.Empty) {
+                return BadRequest("Invalid data");
+            }
             var response = await _authService.Register(
                 new User { Username = request.Username }, request.Password
             );
@@ -98,5 +104,17 @@ namespace covid19_api.Controllers
             return Ok(response);
         }
 
+        [HttpPost("UpdateUserRole")]
+        [HasPermission(Permissions.MANAGE_USER)]    
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> UpdateUserRole(UpdateUserRoleDto data)
+        {
+            var response = await _authService.UpdateUserRole(data);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
     }
 }

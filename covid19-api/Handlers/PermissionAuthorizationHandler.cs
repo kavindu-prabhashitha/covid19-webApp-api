@@ -1,8 +1,9 @@
-﻿using covid19_api.Services.UserClaims;
+﻿using covid19_api.Services.Permission;
+using covid19_api.Services.UserClaims;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace covid19_api.PermissionHandlers
+namespace covid19_api.Handlers
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
@@ -14,7 +15,7 @@ namespace covid19_api.PermissionHandlers
         }
 
         protected override async Task HandleRequirementAsync(
-            AuthorizationHandlerContext context, 
+            AuthorizationHandlerContext context,
             PermissionRequirement requirement)
         {
             //string? memberId =  context.User.Claims.FirstOrDefault(
@@ -36,10 +37,10 @@ namespace covid19_api.PermissionHandlers
             IPermissionService permissionService = scope.ServiceProvider
                 .GetRequiredService<IPermissionService>();
 
-            List<string> permissions = await permissionService
-                .GetPermissionsAsync(Int32.Parse(memberId));
+            List<int> permissions = await permissionService
+                .GetPermissionsAsync(int.Parse(memberId));
 
-            if(permissions.Contains(requirement.Permission))
+            if (permissions.Contains(requirement.Permission))
             {
                 context.Succeed(requirement);
             }

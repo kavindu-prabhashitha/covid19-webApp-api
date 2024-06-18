@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using covid19_api.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace covid19_api.PermissionHandlers
+namespace covid19_api.Providers
 {
     public class PermissionAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
     {
@@ -17,11 +18,11 @@ namespace covid19_api.PermissionHandlers
 
             if (policy is not null)
             {
-                return policy;  
+                return policy;
             }
 
             return new AuthorizationPolicyBuilder()
-                .AddRequirements(new PermissionRequirement(policyName))
+                .AddRequirements(new PermissionRequirement(Int32.Parse(policyName)))
                 .Build();
         }
     }

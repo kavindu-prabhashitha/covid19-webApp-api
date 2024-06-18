@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using covid19_api.Dtos.RolePermission;
 using covid19_api.Dtos.UserRole;
 using covid19_api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -92,5 +93,85 @@ namespace covid19_api.Services.Role
             response.Data = roles.Select(r=> _mapper.Map<GetUserRoleDto>(r)).ToList();
             return response;
         }
+
+        public async Task<ServiceResponse<GetUserRoleDto>> GetRoleById(int roleId)
+        {
+            var response = new ServiceResponse<GetUserRoleDto>();
+            var role = await _context.UserRoles
+                .Include(r => r.RolePermissions)
+                .Where(x => x.Id == roleId)
+                .FirstOrDefaultAsync();
+
+            response.Data = _mapper.Map<GetUserRoleDto>(role);
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<GetUserRoleDto>>> UpdateRole(UpdateRoleDto data)
+        {
+            var response = new ServiceResponse<List<GetUserRoleDto>>();
+            if (data == null)
+            {
+                response.Success = false;
+                response.Message = "Invalid Data Provided";
+                return response;
+            }
+
+            var role = await _context.UserRoles.Where(x => x.Id == data.Id).FirstOrDefaultAsync();
+
+            if (role is null)
+            {
+                response.Success = false;
+                response.Message = "role Not Found";
+                return response;
+            }
+
+            if (data.Name is not null) role.Name = data.Name;
+            if (data.Description is not null) role.Description = data.Description;
+            await _context.SaveChangesAsync();
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<GetUserRoleDto>> RemovePermissionsFromUserRole(RemovePermissionFromUserRoleDto data)
+        {
+            var response = new ServiceResponse<GetUserRoleDto>();
+            if (data is null)
+            {
+                response.Success = false;
+                response.Message = "Invalid Permission Data";
+                return response;
+            }
+
+            var userRole = await _context.UserRoles
+                .Include(r => r.RolePermissions)
+                .Where(r => r.Id == data.UserRoleId)
+                .FirstOrDefaultAsync();
+
+            var permission = await _context.RolePermissions
+                .Where(x => x.Id == data.PermissionId)
+                .FirstOrDefaultAsync();
+
+            if (userRole is null)
+            {
+                response.Success = false;
+                response.Message = "UserRole not found";
+                return response;
+            }
+
+            if (permission is null)
+            {
+                response.Success = false;
+                response.Message = "Permission not found";
+                return response;
+            }
+
+             _context.RolePermissions.Remove(permission);
+            await _context.SaveChangesAsync();
+
+            response.Message = "Permission Related to user role is deleted";
+            return response;
+
+        }
+
     }
 }
