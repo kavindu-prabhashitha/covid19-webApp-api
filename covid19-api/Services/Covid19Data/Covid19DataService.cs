@@ -11,6 +11,8 @@ namespace covid19_api.Services.Covid19Data
     public class Covid19DataService : ICovid19DataService
     {
         private readonly string apiEndpoint = "https://api.api-ninjas.com/v1/covid19";
+
+        // API KEY from Net-Ninja API service
         private readonly string apiKey = "z7ypjrRoVu3bWygaDQaC2g==9zF0jFvHx1lKIBvF";
         private HttpClient _httpClient;
         private readonly IMapper _mapper;

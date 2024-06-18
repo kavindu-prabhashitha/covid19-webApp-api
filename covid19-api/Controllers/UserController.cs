@@ -1,4 +1,6 @@
-﻿using covid19_api.Dtos.User;
+﻿using covid19_api.Constants;
+using covid19_api.Dtos.User;
+using covid19_api.Handlers;
 using covid19_api.Services.SystemUser;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +18,7 @@ namespace covid19_api.Controllers
         }
 
         [HttpGet]
+        [HasPermission(Permissions.ACCESS_USERS)]
         public async Task<ActionResult<ServiceResponse<List<GetUserDto>>>> GetAllUserss()
         {
             var data = await _userService.GetAllUsers();
@@ -27,6 +30,7 @@ namespace covid19_api.Controllers
         }
 
         [HttpGet("GetUserById")]
+        [HasPermission(Permissions.VIEW_USER_PROFILE)]
         public async Task<ActionResult<ServiceResponse<GetUserDto>>> GetUserById(int id)
         {
             var data = await _userService.GetUserById(id);
